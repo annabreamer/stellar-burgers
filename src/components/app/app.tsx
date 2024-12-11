@@ -39,7 +39,7 @@ const App = () => {
             path='/ingredients/:id'
             element={
               <Modal
-                title='Информация об ингредиентах'
+                title='Детали ингредиента'
                 onClose={() => window.history.back()}
               >
                 <IngredientDetails />
