@@ -10,7 +10,7 @@ import {
   getMains,
   getSauces
 } from '../../services/ingredientsSlice';
-import { AppDispatch } from 'src/services/store';
+import { AppDispatch } from '../../services/store';
 
 export const BurgerIngredients: FC = () => {
   const dispatch = useDispatch<AppDispatch>();

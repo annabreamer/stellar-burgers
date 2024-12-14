@@ -15,10 +15,22 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from '../protectedroute/protectedroute';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { AppDispatch, useDispatch } from '../../services/store';
+import { getUserThunk, init } from '../../services/userSlice';
+import { getCookie } from '../../utils/cookie';
 
 const App = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    const token = getCookie('accessToken');
+    if (token) {
+      dispatch(getUserThunk());
+    } else {
+      dispatch(init());
+    }
+  }, []);
 
   return (
     <BrowserRouter>
@@ -47,14 +59,42 @@ const App = () => {
             }
           />
           <Route path='*' element={<NotFound404 />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/reset-password' element={<ResetPassword />} />
+          <Route
+            path='/login'
+            element={
+              <ProtectedRoute onlyUnAuth>
+                <Login />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/register'
+            element={
+              <ProtectedRoute onlyUnAuth>
+                <Register />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/forgot-password'
+            element={
+              <ProtectedRoute onlyUnAuth>
+                <ForgotPassword />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/reset-password'
+            element={
+              <ProtectedRoute onlyUnAuth>
+                <ResetPassword />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path='/profile'
             element={
-              <ProtectedRoute isAuth={isAuth}>
+              <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
             }
@@ -62,7 +102,7 @@ const App = () => {
           <Route
             path='/profile/orders'
             element={
-              <ProtectedRoute isAuth={isAuth}>
+              <ProtectedRoute>
                 <ProfileOrders />
               </ProtectedRoute>
             }
@@ -70,7 +110,7 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <ProtectedRoute isAuth={isAuth}>
+              <ProtectedRoute>
                 <Modal
                   title='Информация о заказе'
                   onClose={() => window.history.back()}
