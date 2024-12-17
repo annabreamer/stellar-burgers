@@ -162,6 +162,11 @@ export type TLoginData = {
   password: string;
 };
 
+export type TResetPasswordData = {
+  password: string;
+  token: string;
+};
+
 export const loginUserApi = (data: TLoginData) =>
   fetch(`${URL}/auth/login`, {
     method: 'POST',

@@ -3,18 +3,10 @@ import { useInView } from 'react-intersection-observer';
 
 import { TIngredient, TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchIngredients,
-  getBuns,
-  getMains,
-  getSauces
-} from '../../services/ingredientsSlice';
-import { AppDispatch } from '../../services/store';
+import { useSelector } from 'react-redux';
+import { getBuns, getMains, getSauces } from '../../services/ingredientsSlice';
 
 export const BurgerIngredients: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  /** TODO: взять переменные из стора */
   const buns: TIngredient[] = useSelector(getBuns);
   const mains: TIngredient[] = useSelector(getMains);
   const sauces: TIngredient[] = useSelector(getSauces);
@@ -35,10 +27,6 @@ export const BurgerIngredients: FC = () => {
   const [saucesRef, inViewSauces] = useInView({
     threshold: 0
   });
-
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
 
   useEffect(() => {
     if (inViewBuns) {

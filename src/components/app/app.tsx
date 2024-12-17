@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { AppDispatch, useDispatch } from '../../services/store';
 import { getUserThunk, init } from '../../services/userSlice';
 import { getCookie } from '../../utils/cookie';
+import { fetchIngredients } from '../../services/ingredientsSlice';
 
 const App = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,6 +32,10 @@ const App = () => {
       dispatch(init());
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
