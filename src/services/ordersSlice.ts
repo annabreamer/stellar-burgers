@@ -1,4 +1,4 @@
-import { TOrder } from '../utils/types';
+import { TOrder, TOrdersData } from '../utils/types';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getFeedsApi } from '../utils/burger-api';
 
@@ -6,19 +6,23 @@ export interface OrdersState {
   isLoading: boolean;
   orders: TOrder[];
   error: string | null;
+  total: number | null;
+  totalToday: number | null;
 }
 
 const initialState: OrdersState = {
   isLoading: false,
   orders: [],
-  error: null
+  error: null,
+  total: null,
+  totalToday: null
 };
 
-export const fetchOrders = createAsyncThunk<TOrder[]>(
+export const fetchOrders = createAsyncThunk<TOrdersData>(
   'orders/fetchOrders',
   async () => {
-    const orders = await getFeedsApi();
-    return orders.orders;
+    const result = await getFeedsApi();
+    return result;
   }
 );
 
@@ -33,7 +37,9 @@ const ordersSlice = createSlice({
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.orders = action.payload;
+        state.orders = action.payload.orders;
+        state.total = action.payload.total;
+        state.totalToday = action.payload.totalToday;
         state.error = null;
       })
       .addCase(fetchOrders.rejected, (state, action) => {
@@ -42,9 +48,13 @@ const ordersSlice = createSlice({
       });
   },
   selectors: {
-    getOrders: (state) => state.orders
+    getOrders: (state) => state.orders,
+    getIsLoading: (state) => state.isLoading,
+    getTotal: (state) => state.total,
+    getTotalToday: (state) => state.totalToday
   }
 });
 
 export default ordersSlice.reducer;
-export const { getOrders } = ordersSlice.selectors;
+export const { getOrders, getIsLoading, getTotal, getTotalToday } =
+  ordersSlice.selectors;

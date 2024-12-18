@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { orderBurgerApi } from '@api';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
+import { getCookie } from '../utils/cookie';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface BurgerConstructorState {
@@ -9,6 +11,7 @@ export interface BurgerConstructorState {
   };
   orderRequest: boolean;
   orderModalData: TOrder | null;
+  error: string | null;
 }
 
 const initialState: BurgerConstructorState = {
@@ -17,8 +20,24 @@ const initialState: BurgerConstructorState = {
     ingredients: []
   },
   orderRequest: false,
-  orderModalData: null
+  orderModalData: null,
+  error: null
 };
+
+export const orderBurgerThunk = createAsyncThunk(
+  'orders/orderBurgerApi',
+  async (ingredients: string[], { rejectWithValue }) => {
+    const accessToken = getCookie('accessToken');
+    if (!accessToken) {
+      return rejectWithValue({ message: 'User is not authorized' });
+    }
+    const response = await orderBurgerApi(ingredients);
+    if (!response?.success) {
+      return rejectWithValue(response);
+    }
+    return response.order;
+  }
+);
 
 const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
@@ -38,9 +57,6 @@ const burgerConstructorSlice = createSlice({
         state.constructorItems.ingredients.filter(
           (ingredient) => ingredient.id !== action.payload
         );
-    },
-    setOrderRequest(state, action: PayloadAction<boolean>) {
-      state.orderRequest = action.payload;
     },
     setOrderModalData(state, action: PayloadAction<TOrder | null>) {
       state.orderModalData = action.payload;
@@ -64,6 +80,25 @@ const burgerConstructorSlice = createSlice({
       }
     }
   },
+  extraReducers: (builder) => {
+    builder.addCase(orderBurgerThunk.pending, (state) => {
+      state.orderRequest = true;
+      state.error = null;
+    });
+    builder.addCase(orderBurgerThunk.rejected, (state, { error }) => {
+      state.orderRequest = false;
+      if (error.message) {
+        state.error = error.message;
+      }
+    });
+    builder.addCase(orderBurgerThunk.fulfilled, (state, { payload }) => {
+      state.orderRequest = false;
+      state.orderModalData = payload;
+      state.error = null;
+      state.constructorItems.bun = null;
+      state.constructorItems.ingredients = [];
+    });
+  },
   selectors: {
     selectBun: (state) => state.constructorItems.bun,
     selectIngredients: (state) => state.constructorItems.ingredients,
@@ -76,7 +111,6 @@ export const {
   setBun,
   addIngredient,
   removeIngredient,
-  setOrderRequest,
   setOrderModalData,
   moveIngredientDown,
   moveIngredientUp

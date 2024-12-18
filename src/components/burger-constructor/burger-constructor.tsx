@@ -3,31 +3,47 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  orderBurgerThunk,
   selectBun,
   selectIngredients,
   selectOrderModalData,
   selectOrderRequest,
-  setOrderModalData,
-  setOrderRequest
+  setOrderModalData
 } from '../../services/burgerConstructorSlice';
+import { AppDispatch } from '../../services/store';
+import { useNavigate } from 'react-router-dom';
+import { getCookie } from '../../utils/cookie';
 
 export const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const bun = useSelector(selectBun);
   const ingredients = useSelector(selectIngredients);
   const orderRequest = useSelector(selectOrderRequest);
   const orderModalData = useSelector(selectOrderModalData);
 
+  const navigate = useNavigate();
+
   const onOrderClick = () => {
     if (!bun || orderRequest) return;
-    // TODO: отправить заказ на сервер
-    dispatch(setOrderRequest(true));
+
+    const accessToken = getCookie('accessToken');
+    if (!accessToken) {
+      navigate('/login');
+      return;
+    }
+
+    const ingredientsIds = [
+      bun._id,
+      ...ingredients.map((ingredient) => ingredient._id),
+      bun._id
+    ];
+
+    dispatch(orderBurgerThunk(ingredientsIds));
   };
+
   const closeOrderModal = () => {
     dispatch(setOrderModalData(null));
-    // TODO: убрать
-    dispatch(setOrderRequest(false));
   };
 
   const price = useMemo(
