@@ -5,21 +5,21 @@ import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchOrders,
-  getOrders,
-  getIsLoading
+  getFeedOrders,
+  getIsFeedLoading
 } from '../../services/ordersSlice';
 import { AppDispatch } from '../../services/store';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const orders: TOrder[] = useSelector(getOrders);
-  const isLoading = useSelector(getIsLoading);
+  const orders: TOrder[] = useSelector(getFeedOrders);
+  const isFeedLoading = useSelector(getIsFeedLoading);
 
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
 
-  if (isLoading) {
+  if (isFeedLoading) {
     return <Preloader />;
   }
 
