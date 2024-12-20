@@ -6,7 +6,7 @@ import commonStyles from '../common.module.css';
 
 import { ProfileUIProps } from './type';
 import { ProfileMenu } from '@components';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../../../services/store';
 import { AppDispatch } from '../../../../services/store';
 import { updateUserThunk } from '../../../../services/userSlice';
 import { TUser } from '@utils-types';
@@ -20,7 +20,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
   handleCancel,
   handleInputChange
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     const updatedUser: TRegisterData = {

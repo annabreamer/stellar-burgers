@@ -10,6 +10,7 @@ export interface OrdersState {
   error: string | null;
   total: number | null;
   totalToday: number | null;
+  orderStatus: string;
 }
 
 const initialState: OrdersState = {
@@ -19,7 +20,8 @@ const initialState: OrdersState = {
   shownOrders: [],
   error: null,
   total: null,
-  totalToday: null
+  totalToday: null,
+  orderStatus: ''
 };
 
 export const fetchOrders = createAsyncThunk<TOrdersData>(
@@ -67,6 +69,9 @@ const ordersSlice = createSlice({
       .addCase(getOrderByNumberThunk.fulfilled, (state, action) => {
         state.isShownLoading = false;
         state.shownOrders = action.payload;
+        if (action.payload) {
+          state.orderStatus = action.payload[0].status;
+        }
         state.error = null;
       })
       .addCase(getOrderByNumberThunk.rejected, (state, action) => {
@@ -80,7 +85,8 @@ const ordersSlice = createSlice({
     getIsFeedLoading: (state) => state.isFeedLoading,
     getIsShownLoading: (state) => state.isShownLoading,
     getTotal: (state) => state.total,
-    getTotalToday: (state) => state.totalToday
+    getTotalToday: (state) => state.totalToday,
+    getOrderStatus: (state) => state.orderStatus
   }
 });
 
@@ -91,5 +97,6 @@ export const {
   getIsFeedLoading,
   getIsShownLoading,
   getTotal,
-  getTotalToday
+  getTotalToday,
+  getOrderStatus
 } = ordersSlice.selectors;

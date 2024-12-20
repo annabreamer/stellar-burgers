@@ -2,18 +2,19 @@ import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient, TOrder } from '@utils-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
 import {
   getOrderByNumberThunk,
   getShownOrders,
-  getIsShownLoading
+  getIsShownLoading,
+  getOrderStatus
 } from '../../services/ordersSlice';
 import { AppDispatch } from '../../services/store';
 import { getIngredients } from '../../services/ingredientsSlice';
 
 export const OrderInfo: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const { number } = useParams<{ number: string }>();
 
   const orders = useSelector(getShownOrders);
@@ -26,6 +27,8 @@ export const OrderInfo: FC = () => {
   }, [dispatch, number]);
 
   const orderData = orders.find((order) => order.number === Number(number));
+
+  const status = useSelector(getOrderStatus);
 
   const ingredients = useSelector(getIngredients);
 
@@ -64,6 +67,7 @@ export const OrderInfo: FC = () => {
 
     return {
       ...orderData,
+      status,
       ingredientsInfo,
       date,
       total

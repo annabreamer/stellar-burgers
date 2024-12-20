@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import {
   orderBurgerThunk,
   selectBun,
@@ -15,8 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../../utils/cookie';
 
 export const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
+  const dispatch = useDispatch();
+
   const bun = useSelector(selectBun);
   const ingredients = useSelector(selectIngredients);
   const orderRequest = useSelector(selectOrderRequest);

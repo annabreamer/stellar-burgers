@@ -46,11 +46,13 @@ const burgerConstructorSlice = createSlice({
     setBun(state, action: PayloadAction<TIngredient>) {
       state.constructorItems.bun = action.payload;
     },
-    addIngredient(state, action: PayloadAction<TIngredient>) {
-      state.constructorItems.ingredients.push({
-        ...action.payload,
-        id: uuidv4()
-      });
+    addIngredient: {
+      reducer(state, action: PayloadAction<TConstructorIngredient>) {
+        state.constructorItems.ingredients.push(action.payload);
+      },
+      prepare(ingredient: TIngredient) {
+        return { payload: { ...ingredient, id: uuidv4() } };
+      }
     },
     removeIngredient(state, action: PayloadAction<string>) {
       state.constructorItems.ingredients =
