@@ -217,7 +217,6 @@ describe('burgerConstructorSlice extraReducers', () => {
       },
       orderBurgerThunk.fulfilled(mockOrder, '', [])
     );
-
     expect(actualState.orderRequest).toBe(false);
     expect(actualState.error).toBeNull();
     expect(actualState.orderModalData).toEqual(mockOrder);
