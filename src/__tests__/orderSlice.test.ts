@@ -16,7 +16,7 @@ describe('orderSlice extraReducers', () => {
     totalToday: null,
     orderStatus: ''
   };
-  
+
   test('fetchOrders.pending', () => {
     const actualState = orderSliceReducer(
       { ...initialState },

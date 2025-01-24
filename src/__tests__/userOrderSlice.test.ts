@@ -10,7 +10,7 @@ describe('userOrderSlice extraReducers', () => {
     orders: [],
     error: null
   };
-  
+
   test('fetchUserOrders.pending', () => {
     const actualState = userOrderSliceReducer(
       { ...initialState },
