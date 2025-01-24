@@ -98,7 +98,7 @@ export interface UserState {
   registrationError: string | undefined;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   isInit: false,
   isLoading: false,
   user: null,
