@@ -13,7 +13,7 @@ export interface OrdersState {
   orderStatus: string;
 }
 
-const initialState: OrdersState = {
+export const initialState: OrdersState = {
   isFeedLoading: false,
   isShownLoading: false,
   feedOrders: [],

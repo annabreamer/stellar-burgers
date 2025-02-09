@@ -14,7 +14,7 @@ import { AppDispatch } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../../utils/cookie';
 
-export const BurgerConstructor: FC = () => {
+export const BurgerConstructor: FC = ({ ...rest }) => {
   const dispatch = useDispatch();
 
   const bun = useSelector(selectBun);
@@ -64,6 +64,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      {...rest}
     />
   );
 };

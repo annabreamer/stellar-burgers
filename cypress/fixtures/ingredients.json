@@ -1,0 +1,103 @@
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "101",
+      "name": "Котлета",
+      "type": "main",
+      "proteins": 101,
+      "fat": 99,
+      "carbohydrates": 100,
+      "calories": 100,
+      "price": 200,
+      "image": "cutlet.png",
+      "image_mobile": "cutlet-mobile.png",
+      "image_large": "cutlet-large.png",
+      "__v": 0
+    },
+    {
+      "_id": "102",
+      "name": "Сыр",
+      "type": "main",
+      "proteins": 50,
+      "fat": 110,
+      "carbohydrates": 90,
+      "calories": 120,
+      "price": 30,
+      "image": "cheese.png",
+      "image_mobile": "cheese-mobile.png",
+      "image_large": "cheese-large.png",
+      "__v": 0
+    },
+    {
+      "_id": "103",
+      "name": "Булочка 1",
+      "type": "bun",
+      "proteins": 10,
+      "fat": 140,
+      "carbohydrates": 190,
+      "calories": 320,
+      "price": 50,
+      "image": "bun1.png",
+      "image_mobile": "bun1-mobile.png",
+      "image_large": "bun1-large.png",
+      "__v": 0
+    },
+    {
+      "_id": "104",
+      "name": "Булочка 2",
+      "type": "bun",
+      "proteins": 10,
+      "fat": 150,
+      "carbohydrates": 160,
+      "calories": 220,
+      "price": 70,
+      "image": "bun2.png",
+      "image_mobile": "bun2-mobile.png",
+      "image_large": "bun2-large.png",
+      "__v": 0
+    },
+    {
+      "_id": "105",
+      "name": "Салат",
+      "type": "main",
+      "proteins": 5,
+      "fat": 2,
+      "carbohydrates": 10,
+      "calories": 8,
+      "price": 10,
+      "image": "salad.png",
+      "image_mobile": "salad-mobile.png",
+      "image_large": "salad-large.png",
+      "__v": 0
+    },
+    {
+      "_id": "106",
+      "name": "Кетчуп",
+      "type": "sauce",
+      "proteins": 11,
+      "fat": 34,
+      "carbohydrates": 90,
+      "calories": 67,
+      "price": 10,
+      "image": "sauce1.png",
+      "image_mobile": "sauce1-mobile.png",
+      "image_large": "sauce1-large.png",
+      "__v": 0
+    },
+    {
+      "_id": "107",
+      "name": "Майонез",
+      "type": "sauce",
+      "proteins": 12,
+      "fat": 33,
+      "carbohydrates": 94,
+      "calories": 68,
+      "price": 10,
+      "image": "sauce2.png",
+      "image_mobile": "sauce2-mobile.png",
+      "image_large": "sauce2-large.png",
+      "__v": 0
+    }
+  ]
+}

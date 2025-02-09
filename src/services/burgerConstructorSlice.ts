@@ -14,7 +14,7 @@ export interface BurgerConstructorState {
   error: string | null;
 }
 
-const initialState: BurgerConstructorState = {
+export const initialState: BurgerConstructorState = {
   constructorItems: {
     bun: null,
     ingredients: []
